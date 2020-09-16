@@ -1,8 +1,6 @@
-## Welcome to GitHub Pages
+## 欢迎来到陈淼的Greenplum常见问题主页
 
-You can use the [editor on GitHub](https://github.com/water32/gpfaq/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+我们将在这里开启一段新的征程，作者后续会以小知识点的形式持续更新Greenplum的相关常见问题和最佳实践经验。
 
 ### Markdown
 
