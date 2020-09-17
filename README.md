@@ -2,7 +2,9 @@
 
 我们将在这里开启一段新的征程，作者后续会以小知识点的形式持续更新Greenplum的相关常见问题和最佳实践经验。
 
-[一键式部署GP集群](https://github.com/water32/gpfaq/blob/master/2020/gpdbinstall.md)
+[一键式部署GP集群示例](https://github.com/water32/gpfaq/blob/master/2020/gpdbinstall.md)
+
+[并行DDL恢复命令示例](https://github.com/water32/gpfaq/blob/master/2020/gpddlrestore.md)
 
 ### Markdown
 
