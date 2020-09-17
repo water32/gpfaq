@@ -1,3 +1,5 @@
+此处演示了使用一键式安装脚本完成1+6的集群规模下，初始化72个Primary的过程：
+
 ```
 [root@smdw gpinstall]# ./gpdbinstall --pf pf
 20200917:15:13:09.021869-[INFO]-:All command bash,bzip2,curl,expect,ifconfig,ip,less,mkfs.xfs,perl,rsync,sed,ssh,tar,unzip,zip found in current environment
