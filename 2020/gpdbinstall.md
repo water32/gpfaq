@@ -182,4 +182,45 @@ Last login: Thu Sep 17 15:25:50 CST 2020
 20200917:15:26:15:025584 gpconfig:smdw:gpadmin-[INFO]:-completed successfully with parameters '-c writable_external_table_bufsize -v 16MB -m 16MB'
 [root@smdw gpinstall]#
 ```
-只需要配置好参数，一条命令，就完成了这个集群的初始化工作。
+只需要配置好参数，一条命令，就完成了这个集群的初始化工作。检查一下刚初始化的集群情况：
+```
+[root@smdw gpinstall]# su - gpadmin
+Last login: Thu Sep 17 15:26:03 CST 2020
+[gpadmin@smdw ~]$ psql -l
+                              List of databases
+   Name    |  Owner  | Encoding | Collate |   Ctype    |  Access privileges
+-----------+---------+----------+---------+------------+---------------------
+ postgres  | gpadmin | UTF8     | C       | en_US.utf8 |
+ template0 | gpadmin | UTF8     | C       | en_US.utf8 | =c/gpadmin         +
+           |         |          |         |            | gpadmin=CTc/gpadmin
+ template1 | gpadmin | UTF8     | C       | en_US.utf8 | =c/gpadmin         +
+           |         |          |         |            | gpadmin=CTc/gpadmin
+(3 rows)
+
+[gpadmin@smdw ~]$ psql postgres
+psql (9.4.24)
+Type "help" for help.
+
+postgres=# SELECT count(*) FROM gp_segment_configuration;
+ count
+-------
+    73
+(1 row)
+
+postgres=# SELECT version();
+                                                                                               version
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------
+ PostgreSQL 9.4.24 (Greenplum Database 6.9.0 build commit:ef010af28862a0fed172ca96620cc1037aac71a0) on x86_64-unknown-linux-gnu, compiled by gcc (GCC) 6.4.0, 64-bit compiled
+ on Jun 29 2020 22:58:53
+(1 row)
+
+postgres=# SELECT pg_postmaster_start_time();
+   pg_postmaster_start_time
+-------------------------------
+ 2020-09-17 15:23:03.760003+08
+(1 row)
+
+postgres=#
+```
