@@ -18,3 +18,18 @@ CREATE READABLE EXTERNAL TABLE ext_test
 LOCATION ('gpfdist://smdw:8080/dev/shm/lotus.txt')
 FORMAT 'TEXT' (DELIMITER 'OFF');
 ```
+启动gpfdist服务，使用简洁模式，指定了路径和端口，其他参数保持缺省值：
+```
+[root@smdw ~]# . /usr/local/greenplum-db-6.9.0/greenplum_path.sh
+[root@smdw ~]# gpfdist -p 8080 -d /../ -s
+2020-09-19 12:45:47 7512 INFO Before opening listening sockets - following listening sockets are available:
+2020-09-19 12:45:47 7512 INFO IPV6 socket: [::]:8080
+2020-09-19 12:45:47 7512 INFO IPV4 socket: 0.0.0.0:8080
+2020-09-19 12:45:47 7512 INFO Trying to open listening socket:
+2020-09-19 12:45:47 7512 INFO IPV6 socket: [::]:8080
+2020-09-19 12:45:47 7512 INFO Opening listening socket succeeded
+2020-09-19 12:45:47 7512 INFO Trying to open listening socket:
+2020-09-19 12:45:47 7512 INFO IPV4 socket: 0.0.0.0:8080
+Serving HTTP on port 8080, directory /
+```
+执行外部表的count(*)查询
