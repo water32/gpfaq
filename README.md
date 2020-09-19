@@ -6,7 +6,7 @@
 
 [并行DDL恢复命令示例](https://github.com/water32/gpfaq/blob/master/2020/gpddlrestore.md) 介绍了如何使用自己编写的高速DDL备份命令和并行DDL恢复命令进行DDL的备份和恢复【**无免费资源提供**】
 
-[gpfdist性能优化介绍](https://github.com/water32/gpfaq/blob/master/2020/gpfdist.md) 介绍了今年以来，我和大牛一起对gpfdist进行性能优化的历程【**无免费资源提供**】
+[gpfdist性能优化介绍](https://github.com/water32/gpfaq/blob/master/2020/gpfdist.md) 介绍2020年中段，我和大牛一起对gpfdist进行性能优化的历程【**无免费资源提供**】
 
 [pgAdmin3可执行文件](https://github.com/water32/pgAdminIII4GP) 【**有可执行文件供下载**】
 
