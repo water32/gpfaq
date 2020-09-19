@@ -160,7 +160,7 @@ Serving HTTP on port 8080, directory /
 ****
 接下来，我们介绍gpfdist的深入优化，首先，我们尝试修改gpfdist源码，加入了异步数据传输和ZSTD压缩传输特性，并使用execute外部表来进行数据获取，我们并没有修改Greenplum的Server端的代码，所以，需要借助execute外部表来完成这个优化测试。测试如下：
 ```
-[root@smdw tmp]# ./gpfdist -p 8080 -d /../ -s -m 128000
+[root@smdw tmp]# ./gpfdist -p 8080 -d /../ -s -m 440000
 2020-09-19 13:03:47 12544 INFO Before opening listening sockets - following listening sockets are available:
 2020-09-19 13:03:47 12544 INFO IPV6 socket: [::]:8080
 2020-09-19 13:03:47 12544 INFO IPV4 socket: 0.0.0.0:8080
@@ -205,7 +205,8 @@ lotus=# SELECT count(*) FROM ext_testexcu;
 Time: 4179.077 ms
 ```
 平均耗时为4193 ms。
-
+***
+总结
 
 
 
