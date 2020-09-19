@@ -8,7 +8,7 @@
 
 [gpfdist性能优化介绍](https://github.com/water32/gpfaq/blob/master/2020/gpfdist.md) 介绍了今年以来，我和大牛一起对gpfdist进行性能优化的历程【**无免费资源提供**】
 
-[pgAdmin3可执行文件](https://github.com/water32/pgAdminIII4GP) 【**可执行文件可以下载**】
+[pgAdmin3可执行文件](https://github.com/water32/pgAdminIII4GP) 【**有可执行文件供下载**】
 
 pgAdmin3主要的修改内容包括：
 
