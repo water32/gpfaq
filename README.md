@@ -6,14 +6,5 @@
 
 [并行DDL恢复命令示例](https://github.com/water32/gpfaq/blob/master/2020/gpddlrestore.md)
 
-后续会逐步介绍如下内容：
+[gpfdist性能优化介绍](https://github.com/water32/gpfaq/blob/master/2020/gpfdist.md)
 
-gpfdist优化经验
-
-安装部署初始化GP集群经验
-
-硬件选型
-
-执行计划解读
-
-。。。
