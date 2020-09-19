@@ -8,3 +8,4 @@
 
 [gpfdist性能优化介绍](https://github.com/water32/gpfaq/blob/master/2020/gpfdist.md)
 
+[pgAdmin3可执行文件](https://github.com/water32/pgAdminIII4GP)
