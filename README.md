@@ -1,5 +1,11 @@
 ### Greenplum知识分享
 
+## 作者
+
+陈淼
+
+****
+
 我们将在这里开启一段新的征程，作者后续会以小知识点的形式持续更新Greenplum的相关常见问题和最佳实践经验。
 
 [一键式部署GP集群示例](https://github.com/water32/gpfaq/blob/master/2020/gpdbinstall.md) 介绍了如何使用自己编写的一键式命令完成集群的部署和初始化【**无免费资源提供**】
