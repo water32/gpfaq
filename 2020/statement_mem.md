@@ -150,3 +150,5 @@ postgres=# explain analyze select count(*) from pg_class;
  Execution time: 0.335 ms
 (7 rows)
 ```
+****
+最后，还是建议用statement_mem来控制内存的使用情况，而不是使用资源队列的内存限制或者资源组的内存限制，资源队列和资源组主要用于控制并发数。
