@@ -127,3 +127,26 @@ postgres=# explain analyze select count(*) from pg_class;
 (7 rows)
 ```
 我们看到explain analyze的输出中，Memory used的值是Master的内存使用量，与前面的计算结果一致。
+
+不过，这个内存限制并不是绝对的，比如，计算出的结果为0时：
+```
+postgres=# select (3774*95/100+1952) * 0.7 / 3 * 10 /100 / 10 * 7 / 100;
+        ?column?
+------------------------
+ 0.90437666666666666900
+(1 row)
+
+postgres=# set MEMORY_SPILL_RATIO to 7;
+SET
+postgres=# explain analyze select count(*) from pg_class;
+                                                 QUERY PLAN
+-------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=12.98..12.99 rows=1 width=8) (actual time=0.226..0.226 rows=1 loops=1)
+   ->  Seq Scan on pg_class  (cost=0.00..11.78 rows=478 width=0) (actual time=0.011..0.192 rows=478 loops=1)
+ Planning time: 2.886 ms
+   (slice0)    Executor memory: 56K bytes.
+ Memory used:  0kB
+ Optimizer: Postgres query optimizer
+ Execution time: 0.335 ms
+(7 rows)
+```
