@@ -29,3 +29,18 @@ CREATE RESOURCE QUEUE pg_default WITH (ACTIVE_STATEMENTS=20,MAX_COST=20000000000
 在这种情况下，一个SQL是否能够获得合适尺寸的内存，完全取决于执行计划评估的是否准确，然而，往往，执行计划对Cost的评估非常的不准确，所以，一般不使用这种内存分配方式。
 
 如果资源队列中，ACTIVE_STATEMENTS属性和MAX_COST属性都是-1，内存的分配完全按照statement_mem参数的值来进行。
+
+****
+
+### 我们先来看一下资源组的情况
+
+在gp_resource_manager设置为group时，单个Primary的可用内存总量，不再受到gp_vmem_protect_limit参数的限制。而是受到下面公式的计算结果的限制：
+```
+SYS_MEM
+× gp_resource_group_memory_limit
+÷ num_of_active_primary
+```
+其中，SYS_MEM是Primary或者Master当前所在主机的可用内存总量，num_of_active_primary是当前主机的Master和Primary的总个数，gp_resource_group_memory_limit是GUC参数，属于可以通过gpconfig修改的参数，另外两个值是不能随意修改的。
+
+
+
