@@ -1,5 +1,6 @@
 ### Greenplum知识分享
 
+Greenplum各种知识和技巧
 
 ## 作者
 
