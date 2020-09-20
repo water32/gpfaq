@@ -30,3 +30,5 @@ pgAdmin3主要的修改内容包括：
 | 权限增强 | 在树状结构中，只显示当前登录角色有权限访问的Schema，Table，View，Function，Sequence等 |
 | 国际化问题 | 将一些未正常显示中文的部分进行修正 |
 | 图标修正 | 图形化执行计划中，一些图标不能正常显示，比如显示为空白，进行了修复 |
+
+[语句的内存使用量评估](https://github.com/water32/gpfaq/blob/master/2020/statement_mem.md)
