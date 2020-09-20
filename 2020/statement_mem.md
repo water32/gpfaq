@@ -36,11 +36,94 @@ CREATE RESOURCE QUEUE pg_default WITH (ACTIVE_STATEMENTS=20,MAX_COST=20000000000
 
 在gp_resource_manager设置为group时，单个Primary的可用内存总量，不再受到gp_vmem_protect_limit参数的限制。而是受到下面公式的计算结果的限制：
 ```
-SYS_MEM
+SYS_MEM( = RAM × (vm.overcommit_ratio ÷ 100) + SWAP)
 × gp_resource_group_memory_limit
 ÷ num_of_active_primary
 ```
 其中，SYS_MEM是Primary或者Master当前所在主机的可用内存总量，num_of_active_primary是当前主机的Master和Primary的总个数，gp_resource_group_memory_limit是GUC参数，属于可以通过gpconfig修改的参数，另外两个值是不能随意修改的。
 
+在使用资源组的情况下，又分为2种分配方式，取决于MEMORY_SPILL_RATIO的值是否为0，这个可以是资源组的MEMORY_SPILL_RATIO属性，也可以是GUC参数，当MEMORY_SPILL_RATIO为0时，内存的分配完全按照statement_mem参数的值来进行。
 
+当MEMORY_SPILL_RATIO不为0时，执行SQL时可以获得的内存尺寸为：
+```
+int(
+SYS_MEM( = RAM × vm.overcommit_ratio ÷ 100 + SWAP)
+× gp_resource_group_memory_limit
+× MEMORY_LIMIT ÷ 100
+÷ num_of_active_primary
+÷ CONCURRENCY
+× MEMORY_SPILL_RATIO ÷ 100
+)
+```
+比如，下面是我的虚拟机环境的情况：
+```
+[gpadmin@gpmagic ~]$ free -m
+              total        used        free      shared  buff/cache   available
+Mem:           3774         176        2132        1147        1466        2168
+Swap:          1952           0        1952
+[gpadmin@gpmagic ~]$ cat /proc/sys/vm/overcommit_ratio
+95
+[gpadmin@gpmagic ~]$ psql postgres
+psql (9.4.24)
+Type "help" for help.
+postgres=# show gp_resource_group_memory_limit;
+ gp_resource_group_memory_limit
+--------------------------------
+ 0.7
+(1 row)
+postgres=# select * from gp_segment_configuration;
+ dbid | content | role | preferred_role | mode | status | port  | hostname | address |          datadir
+------+---------+------+----------------+------+--------+-------+----------+---------+---------------------------
+    1 |      -1 | p    | p              | n    | u      |  5432 | gpmagic  | gpmagic | /data/gp6/default/gpseg-1
+    2 |       0 | p    | p              | n    | u      | 40000 | gpmagic  | gpmagic | /data/gp6/default/gpseg0
+    3 |       1 | p    | p              | n    | u      | 40001 | gpmagic  | gpmagic | /data/gp6/default/gpseg1
+(3 rows)
+```
+资源组的定义为：
+```
+CREATE RESOURCE GROUP admin_group WITH (CONCURRENCY=10,CPU_RATE_LIMIT=10,MEMORY_SHARED_QUOTA=80,MEMORY_LIMIT=10,MEMORY_SPILL_RATIO=0,MEMORY_AUDITOR='vmtracker');
+```
+带入公式分别计算MEMORY_SPILL_RATIO为15个16的结果：
+```
+postgres=# select (3774*95/100+1952) * 0.7 / 3 * 10 /100 / 10 * 15 / 100;
+      ?column?
+--------------------
+ 1.9379500000000000
+(1 row)
+postgres=# select (3774*95/100+1952) * 0.7 / 3 * 10 /100 / 10 * 16 / 100;
+      ?column?
+--------------------
+ 2.0671466666666667
+(1 row)
+```
+根据上述的计算结果进行测试：
+```
+postgres=# set MEMORY_SPILL_RATIO to 15;
+SET
+postgres=# explain analyze select count(*) from pg_class;
+                                                 QUERY PLAN
+-------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=12.98..12.99 rows=1 width=8) (actual time=0.192..0.192 rows=1 loops=1)
+   ->  Seq Scan on pg_class  (cost=0.00..11.78 rows=478 width=0) (actual time=0.007..0.155 rows=478 loops=1)
+ Planning time: 3.718 ms
+   (slice0)    Executor memory: 56K bytes.
+ Memory used:  1024kB
+ Optimizer: Postgres query optimizer
+ Execution time: 0.250 ms
+(7 rows)
 
+postgres=# set MEMORY_SPILL_RATIO to 16;
+SET
+postgres=# explain analyze select count(*) from pg_class;
+                                                 QUERY PLAN
+-------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=12.98..12.99 rows=1 width=8) (actual time=0.198..0.198 rows=1 loops=1)
+   ->  Seq Scan on pg_class  (cost=0.00..11.78 rows=478 width=0) (actual time=0.010..0.158 rows=478 loops=1)
+ Planning time: 2.843 ms
+   (slice0)    Executor memory: 56K bytes.
+ Memory used:  2048kB
+ Optimizer: Postgres query optimizer
+ Execution time: 0.257 ms
+(7 rows)
+```
+我们看到explain analyze的输出中，Memory used的值是Master的内存使用量，与前面的计算结果一致。
