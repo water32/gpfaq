@@ -1,6 +1,8 @@
 ## 如何评估statement_mem的值
 
-关于一个SQL使用多少内存，在Greenplum中，这是一个很复杂的概念，首先我们根据资源管理的模式来分开讨论，因为，资源队列和资源组的单个Primary的可用内存总量的计算方式是不同的。**注意：我们这里说的一个SQL可使用的内存，指的是每个Primary上的可用内存，并不是整个集群的概念，如果算出的每个Primary上的可用内存是100MB，有100个Primary，那就是每个Primary上都是100MB的可用内存。**
+关于一个SQL使用多少内存，在Greenplum中，这是一个很复杂的概念，首先我们根据资源管理的模式来分开讨论，因为，资源队列和资源组的单个Primary的可用内存总量的计算方式是不同的。
+
+**注意：**我们这里说的一个SQL可使用的内存，指的是每个Primary上的可用内存，并不是整个集群的概念，如果算出的每个Primary上的可用内存是100MB，有100个Primary，那就是每个Primary上都是100MB的可用内存。
 
 ****
 
@@ -16,4 +18,14 @@ CREATE RESOURCE QUEUE pg_default WITH (ACTIVE_STATEMENTS=20,MAX_COST=-1,MIN_COST
 ```
 2000MB ÷ 20 = 100MB
 ```
+如果是与MAX_COST结合，比如下面的资源队列的定义：
+```
+CREATE RESOURCE QUEUE pg_default WITH (ACTIVE_STATEMENTS=20,MAX_COST=20000000000,MIN_COST=-1,COST_OVERCOMMIT=FALSE,PRIORITY=MEDIUM,MEMORY_LIMIT='-1');
+```
+而某个SQL的Cost评估是100000000，那么，该SQL可以获得的内存尺寸为：
+```
+2000MB × 100000000 ÷ 20000000000 = 10MB
+```
+在这种情况下，一个SQL是否能够获得合适尺寸的内存，完全取决于执行计划评估的是否准确，然而，往往，执行计划对Cost的评估非常的不准确，所以，一般不使用这种内存分配方式。
 
+如果资源队列中，ACTIVE_STATEMENTS属性和MAX_COST属性都是-1，内存的分配完全按照statement_mem参数的值来进行。
