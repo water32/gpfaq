@@ -40,3 +40,5 @@ pgAdmin3主要的修改内容包括：
 | 图标修正 | 图形化执行计划中，一些图标不能正常显示，比如显示为空白，进行了修复 |
 
 [语句的内存使用量是如何控制的](https://github.com/water32/gpfaq/blob/master/2020/statement_mem.md) 介绍在使用GP时，各种场景下，语句可使用的内存尺寸是如何控制的。
+
+[目前为止最先进的备份命令演示](https://github.com/water32/gpfaq/blob/master/2020/gpmcbackup.md) 【**无免费资源提供**】
