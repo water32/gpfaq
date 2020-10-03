@@ -42,3 +42,6 @@ pgAdmin3主要的修改内容包括：
 [语句的内存使用量是如何控制的](https://github.com/water32/gpfaq/blob/master/2020/statement_mem.md) 介绍在使用GP时，各种场景下，语句可使用的内存尺寸是如何控制的。
 
 [目前为止最先进的备份命令演示](https://github.com/water32/gpfaq/blob/master/2020/gpmcbackup.md) 【**无免费资源提供**】
+
+[对于全局开窗排序的优化思考](https://github.com/water32/gpfaq/blob/master/2020/win_tuning.md)
+
