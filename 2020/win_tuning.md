@@ -156,3 +156,5 @@ Execution time: 20205.481 ms
 ![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_1.png)
 
 ![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_2.png)
+
+从优化后的执行计划可以看出，Gather Motion的记录数只有*21475*条，
