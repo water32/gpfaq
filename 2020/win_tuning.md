@@ -157,4 +157,12 @@ Execution time: 20205.481 ms
 
 ![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_2.png)
 
-从优化后的执行计划可以看出，Gather Motion的记录数只有*21475*条，
+从优化后的执行计划可以看出，Gather Motion的记录数只有**21475**条，所以，几乎全部的计算工作都是在Segment上完成，并没有像常规SQL那样，把全部(本例为1亿条)记录Gather到Master上。
+
+总体来说：
+
+|  测试场景     | 耗时 | 描述 |
+| ---: | ----: | :---- |
+| 基准测试 | 15.7 s | 数据从一张表复制到领一张表的基准时间 |
+| 常规SQL | 323.9 s | 时间主要都消耗在Master上 |
+| 优化SQL | 20.2 s | 极大缩减了Master计算的耗时，只比基准测试多不到30%的时间 |
