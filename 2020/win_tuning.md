@@ -151,7 +151,7 @@ Optimizer: Pivotal Optimizer (GPORCA)
 Execution time: 20205.481 ms
 ```
 
-下面是优化后SQL的执行计划
+下面是优化后SQL的执行计划(由于执行计划过长，图形分两部分显示)
 
 ![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_1.png)
 
@@ -166,3 +166,5 @@ Execution time: 20205.481 ms
 | 基准测试 | 15.7 s | 数据从一张表复制到领一张表的基准时间 |
 | 常规SQL | 323.9 s | 时间主要都消耗在Master上 |
 | 优化SQL | 20.2 s | 极大缩减了Master计算的耗时，只比基准测试多不到30%的时间 |
+
+个人认为，如果能将这种针对全局排序的算法植入优化器中，将是无敌的！
