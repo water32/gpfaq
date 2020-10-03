@@ -155,4 +155,4 @@ Execution time: 20205.481 ms
 
 ![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_1.png)
 
-![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_1.png)
+![优化后SQL的执行计划](https://github.com/water32/gpfaq/blob/master/images/2020/win_tuning/after_tuning_2.png)
